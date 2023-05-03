@@ -1,20 +1,21 @@
 const express = require("express");
+const auth = require("../middleware/auth");
 const router = express.Router();
-const stuffCtrl = require("../controllers/stuffControllers");
+const stuffCtrl = require("../controllers/stuffController");
 
 //Créer un objet (CREATE)
-router.post("/", stuffCtrl.createThing);
+router.post("/", auth, stuffCtrl.createThing);
 
 // Récupération de tous les objets (READ)
-router.get("/", stuffCtrl.findThings);
+router.get("/", auth, stuffCtrl.findThings);
 
 // Récupération d'un objet (READ)
-router.get("/:id", stuffCtrl.findOneThing);
+router.get("/:id", auth, stuffCtrl.findOneThing);
 
 // Modifier d'un objet (UPDATE)
-router.put("/:id", stuffCtrl.modifyThing);
+router.put("/:id", auth, stuffCtrl.modifyThing);
 
 // Suppression d'un objet (DELETE)
-router.delete("/:id", stuffCtrl.deleteThing);
+router.delete("/:id", auth, stuffCtrl.deleteThing);
 
 module.exports = router;
