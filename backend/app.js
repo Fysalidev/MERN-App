@@ -1,7 +1,15 @@
 const express = require("express");
+const mongoose = require('mongoose');
 
 // Création de l'application express
 const app = express();
+
+// Connexion à la base de données MongoDB
+mongoose.connect('mongodb+srv://Fysalidev:5PvstF1R0zDpjZjz@mern-app.b3xu0y1.mongodb.net/?retryWrites=true&w=majority',
+  { useNewUrlParser: true,
+    useUnifiedTopology: true })
+  .then(() => console.log('Connexion à MongoDB réussie !'))
+  .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 // Met à disposition content-type: application/json et met à disposition dans requ.body (Donne accès au corps de la requête)
 app.use(express.json())
