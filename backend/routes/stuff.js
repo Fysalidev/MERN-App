@@ -1,47 +1,20 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
+const stuffCtrl = require("../controllers/stuffControllers");
 
-// Importation du modèle Thing
-const Thing = require('../models/thing');
+//Créer un objet (CREATE)
+router.post("/", stuffCtrl.createThing);
 
-// Récupération de tous les objets
-router.get("/", (req, res, next) => {
-    Thing.find()
-      .then((things) => res.status(200).json(things))
-      .catch((error) => res.status(400).json({ error }));
-  });
-  
-  // Récupération d'un objet
-  router.get("/:id", (req, res, next) => {
-    Thing.findOne({ _id: req.params.id })
-      .then((thing) => res.status(200).json(thing))
-      .catch((error) => res.status(404).json({ error }));
-  });
-  
-  //Créer un objet
-  router.post("/", (req, res, next) => {
-    delete req.body._id;
-    const thing = new Thing({
-      ...req.body,
-    });
-    thing
-      .save()
-      .then(() => res.status(201).json({ message: "Objet enregistré !" }))
-      .catch((error) => res.status(400).json({ error }));
-  });
-  
-  // Mise à jour d'un objet
-  router.put("/:id", (req, res, next) => {
-    Thing.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
-      .then(() => res.status(200).json({ message: "Objet modifié !" }))
-      .catch((error) => res.status(400).json({ error }));
-  });
-  
-  // Suppression d'un objet
-  router.delete("/:id", (req, res, next) => {
-    Thing.deleteOne({ _id: req.params.id })
-      .then(() => res.status(200).json({ message: "Objet supprimé !" }))
-      .catch((error) => res.status(400).json({ error }));
-  });
+// Récupération de tous les objets (READ)
+router.get("/", stuffCtrl.findThings);
 
-  module.exports = router;
+// Récupération d'un objet (READ)
+router.get("/:id", stuffCtrl.findOneThing);
+
+// Modifier d'un objet (UPDATE)
+router.put("/:id", stuffCtrl.modifyThing);
+
+// Suppression d'un objet (DELETE)
+router.delete("/:id", stuffCtrl.deleteThing);
+
+module.exports = router;
